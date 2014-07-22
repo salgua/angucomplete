@@ -5,7 +5,7 @@
  */
 
 angular.module('angucomplete', [] )
-    .directive('angucomplete', function ($parse, $http, $sce, $timeout) {
+    .directive('angucomplete', ['$parse', '$http', '$sce', '$timeout', function ($parse, $http, $sce, $timeout) {
     return {
         restrict: 'EA',
         scope: {
@@ -47,8 +47,8 @@ angular.module('angucomplete', [] )
             }
 
             isNewSearchNeeded = function(newTerm, oldTerm) {
-                return newTerm.length >= $scope.minLength && newTerm != oldTerm
-            }
+                return newTerm.length >= $scope.minLength && newTerm != oldTerm;
+            };
 
             $scope.processResults = function(responseData, str) {
                 if (responseData && responseData.length > 0) {
@@ -94,7 +94,7 @@ angular.module('angucomplete', [] )
                             description: description,
                             image: image,
                             originalObject: responseData[i]
-                        }
+                        };
 
                         $scope.results[$scope.results.length] = resultRow;
                     }
@@ -103,7 +103,7 @@ angular.module('angucomplete', [] )
                 } else {
                     $scope.results = [];
                 }
-            }
+            };
 
             $scope.searchTimerComplete = function(str) {
                 // Begin the search
@@ -140,7 +140,7 @@ angular.module('angucomplete', [] )
                             });
                     }
                 }
-            }
+            };
 
             $scope.hideResults = function() {
                 $scope.hideTimer = $timeout(function() {
@@ -156,15 +156,15 @@ angular.module('angucomplete', [] )
 
             $scope.hoverRow = function(index) {
                 $scope.currentIndex = index;
-            }
+            };
 
             $scope.keyPressed = function(event) {
                 if (!(event.which == 38 || event.which == 40 || event.which == 13)) {
                     if (!$scope.searchStr || $scope.searchStr == "") {
                         $scope.showDropdown = false;
-                        $scope.lastSearchTerm = null
+                        $scope.lastSearchTerm = null;
                     } else if (isNewSearchNeeded($scope.searchStr, $scope.lastSearchTerm)) {
-                        $scope.lastSearchTerm = $scope.searchStr
+                        $scope.lastSearchTerm = $scope.searchStr;
                         $scope.showDropdown = true;
                         $scope.currentIndex = -1;
                         $scope.results = [];
@@ -182,7 +182,7 @@ angular.module('angucomplete', [] )
                 } else {
                     event.preventDefault();
                 }
-            }
+            };
 
             $scope.selectResult = function(result) {
                 if ($scope.matchClass) {
@@ -192,8 +192,7 @@ angular.module('angucomplete', [] )
                 $scope.selectedObject = result;
                 $scope.showDropdown = false;
                 $scope.results = [];
-                //$scope.$apply();
-            }
+            };
 
             var inputField = elem.find('input');
 
@@ -242,5 +241,5 @@ angular.module('angucomplete', [] )
 
         }
     };
-});
+}]);
 
